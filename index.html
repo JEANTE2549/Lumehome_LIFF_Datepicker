@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>เลือกวันดูบ้าน</title>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+  <h2>เลือกวัน-เวลาเพื่อจองดูบ้าน</h2>
+  <input type="date" id="date" />
+  <input type="time" id="time" />
+  <button onclick="submitReservation()">ยืนยัน</button>
+
+  <script>
+    async function main() {
+      await liff.init({ liffId: 'YOUR_LIFF_ID' });
+    }
+
+    async function submitReservation() {
+      const date = document.getElementById('date').value;
+      const time = document.getElementById('time').value;
+      if (!date || !time) {
+        alert("กรุณาเลือกวันและเวลาให้ครบ");
+        return;
+      }
+
+      const message = `📅 ขอจองดูบ้านวันที่ ${date} เวลา ${time}`;
+      if (liff.isInClient()) {
+        await liff.sendMessages([{ type: 'text', text: message }]);
+        liff.closeWindow();
+      } else {
+        alert("กรุณาเปิดในแอพ LINE");
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>
