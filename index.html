@@ -66,8 +66,8 @@
   </div>
 
   <div class="form-group">
-    <label for="time">เลือกเวลา</label>
-    <input type="time" id="time" />
+    <label for="time">เลือกเวลา (08:00 - 18:00)</label>
+    <input type="time" id="time" min="08:00" max="18:00" />
   </div>
 
   <button onclick="submitReservation()">ยืนยัน</button>
@@ -89,6 +89,22 @@
 
       if (!date || !time) {
         alert("กรุณาเลือกวันและเวลาให้ครบก่อนค่ะ");
+        return;
+      }
+
+      const now = new Date();
+      const selectedDate = new Date(date + 'T' + time);
+
+      // เช็กเวลาอยู่นอกช่วง 08:00-18:00
+      const [hour, minute] = time.split(':').map(Number);
+      if (hour < 8 || hour > 20 || (hour === 19 && minute > 30)) {
+        alert("สามารถจองดูบ้านได้เฉพาะระหว่าง 08:00 - 19:30 เท่านั้นค่ะ");
+        return;
+      }
+
+      // เช็กเวลาในอดีต
+      if (selectedDate <= now) {
+        alert("วันหรือเวลาที่เลือกผ่านมาแล้ว กรุณาเลือกใหม่ค่ะ");
         return;
       }
 
