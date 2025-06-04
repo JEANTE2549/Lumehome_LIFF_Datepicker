@@ -73,8 +73,14 @@
   <button onclick="submitReservation()">ยืนยัน</button>
 
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const dateInput = document.getElementById('date');
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.min = today;
+    });
+
     async function main() {
-      await liff.init({ liffId: '2007520214-3V1lDOWV' });;
+      await liff.init({ liffId: '2007520214-3V1lDOWV' });
     }
 
     async function submitReservation() {
